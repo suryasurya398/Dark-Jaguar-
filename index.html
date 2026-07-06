@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dark Jaguar — Knowledge. Entertainment. Free Resources.</title>
+<meta name="description" content="Dark Jaguar — text, images, videos, courses aur PDFs, sab ek jagah.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Work+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0c0d0a;
+    --bg-soft:#15170f;
+    --card:#1b1d15;
+    --card-2:#22251a;
+    --gold:#d1a54d;
+    --gold-bright:#f0c674;
+    --rosette:#8a5a34;
+    --moss:#5c6b47;
+    --text:#ece7d8;
+    --text-dim:#a39d8a;
+    --line: rgba(236,231,216,0.1);
+    --shadow: 0 20px 50px rgba(0,0,0,0.5);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(ellipse 900px 500px at 50% -8%, rgba(209,165,77,0.10), transparent 60%),
+      var(--bg);
+    color:var(--text);
+    font-family:'Work Sans', sans-serif;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{ background:var(--gold); color:var(--bg); }
+  a{ color:inherit; }
+
+  .upload-fab{
+    position:fixed; top:16px; right:16px; z-index:40;
+    display:flex; align-items:center; gap:7px;
+    background:rgba(12,13,10,0.8);
+    border:1px solid var(--line);
+    color:var(--text-dim);
+    font-family:'Work Sans', sans-serif;
+    font-size:0.78rem;
+    padding:9px 14px;
+    border-radius:999px;
+    cursor:pointer;
+    backdrop-filter:blur(6px);
+    transition:all 0.25s ease;
+  }
+  .upload-fab:hover{ border-color:var(--gold); color:var(--text); }
+
+  header.hero{
+    position:relative;
+    padding:60px 20px 44px;
+    text-align:center;
+    overflow:hidden;
+    border-bottom:1px solid var(--line);
+    background-image:
+      radial-gradient(circle at 12% 20%, rgba(138,90,52,0.10) 0 3px, transparent 4px),
+      radial-gradient(circle at 30% 65%, rgba(138,90,52,0.10) 0 3px, transparent 4px),
+      radial-gradient(circle at 55% 15%, rgba(138,90,52,0.08) 0 2px, transparent 3px),
+      radial-gradient(circle at 75% 55%, rgba(138,90,52,0.10) 0 3px, transparent 4px),
+      radial-gradient(circle at 90% 30%, rgba(138,90,52,0.08) 0 2px, transparent 3px),
+      radial-gradient(circle at 40% 85%, rgba(138,90,52,0.08) 0 2px, transparent 3px);
+  }
+  .eyes{ display:flex; justify-content:center; gap:14px; margin-bottom:18px; }
+  .eyes span{
+    width:10px; height:10px; border-radius:50%;
+    background:var(--gold-bright);
+    box-shadow:0 0 14px 3px rgba(240,198,116,0.55);
+    animation:blink 4.5s ease-in-out infinite;
+  }
+  .eyes span:nth-child(2){ animation-delay:0.15s; }
+  @keyframes blink{ 0%,92%,100%{ opacity:1; } 95%{ opacity:0.15; } }
+
+  .brand{
+    font-family:'Oswald', sans-serif;
+    font-weight:700;
+    font-size:clamp(2.4rem, 9vw, 3.6rem);
+    letter-spacing:3px;
+    margin:0;
+    text-transform:uppercase;
+    background:linear-gradient(180deg, var(--gold-bright), var(--gold) 75%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .tagline{
+    margin:16px auto 0; max-width:440px;
+    font-size:1rem; color:var(--text-dim); line-height:1.6;
+  }
+  .rosette-divider{ display:flex; align-items:center; justify-content:center; gap:16px; margin-top:26px; }
+  .rosette-divider span{ height:1px; width:56px; background:linear-gradient(90deg, transparent, var(--gold), transparent); }
+  .rosette-divider svg{ width:26px; height:26px; }
+
+  nav.filters{
+    display:flex; gap:10px; justify-content:center; flex-wrap:wrap;
+    padding:24px 16px 6px; max-width:640px; margin:0 auto;
+  }
+  .tab{
+    font-size:0.9rem; padding:8px 18px; border-radius:999px;
+    border:1px solid var(--line); background:transparent; color:var(--text-dim);
+    cursor:pointer; transition:all 0.25s ease; font-family:'Work Sans', sans-serif;
+  }
+  .tab:hover{ border-color:var(--gold); color:var(--text); }
+  .tab.active{ background:var(--gold); border-color:var(--gold); color:var(--bg); font-weight:600; }
+
+  .ad-slot{
+    max-width:640px; margin:22px auto; padding:22px 16px;
+    border:1px dashed rgba(209,165,77,0.4); border-radius:14px;
+    text-align:center; font-size:0.85rem; color:var(--text-dim);
+    background:rgba(255,255,255,0.015);
+  }
+  .ad-slot .ad-label{
+    display:inline-block; font-size:0.66rem; letter-spacing:2px; text-transform:uppercase;
+    color:var(--gold-bright); margin-bottom:8px; font-family:'JetBrains Mono', monospace;
+  }
+  .ad-banner{ min-height:90px; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  .ad-native{ border-style:solid; }
+
+  main.feed{
+    max-width:640px; margin:10px auto 60px; padding:0 16px;
+    display:flex; flex-direction:column; gap:26px;
+  }
+  .post{
+    background:linear-gradient(180deg, var(--card-2), var(--card));
+    border:1px solid var(--line); border-radius:16px; overflow:hidden;
+    box-shadow:var(--shadow);
+    opacity:0; transform:translateY(24px);
+    transition:opacity 0.6s ease, transform 0.6s ease;
+    cursor:pointer; position:relative;
+  }
+  .post.visible{ opacity:1; transform:translateY(0); }
+  .post:hover .thumb img, .post:hover .thumb .video-cover{ transform:scale(1.04); }
+  .post::before{
+    content:""; position:absolute; top:14px; left:14px; width:16px; height:16px; z-index:2;
+    background:
+      radial-gradient(circle at 30% 30%, var(--gold) 0 2.5px, transparent 3px),
+      radial-gradient(circle at 70% 25%, var(--gold) 0 2px, transparent 2.5px),
+      radial-gradient(circle at 50% 70%, var(--gold) 0 2px, transparent 2.5px);
+    opacity:0.5; pointer-events:none;
+  }
+
+  .post-head{ display:flex; align-items:center; justify-content:space-between; padding:14px 18px 0; }
+  .cat{ font-size:0.7rem; letter-spacing:1.5px; padding:5px 12px; border-radius:999px; font-weight:600; font-family:'JetBrains Mono', monospace; }
+  .cat.gyan{ background:rgba(92,107,71,0.22); color:#b4c497; }
+  .cat.entertainment{ background:rgba(209,165,77,0.18); color:var(--gold-bright); }
+  .cat.motivation{ background:rgba(240,198,116,0.16); color:#f0c674; }
+  .cat.course{ background:rgba(138,90,52,0.28); color:#e0a86f; }
+  .cat.update{ background:rgba(163,157,138,0.18); color:#c7c1ac; }
+  .post-type-icon{ font-size:0.82rem; color:var(--text-dim); }
+
+  .thumb{ position:relative; width:100%; aspect-ratio:4/3; overflow:hidden; margin-top:12px; background:var(--bg); }
+  .thumb img, .video-cover{ width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.5s ease; }
+  .video-cover{ background-size:cover; background-position:center; display:flex; align-items:center; justify-content:center; }
+  .play-btn{ width:56px; height:56px; border-radius:50%; background:rgba(12,13,10,0.55); backdrop-filter:blur(2px); display:flex; align-items:center; justify-content:center; border:1px solid rgba(236,231,216,0.5); }
+  .play-btn svg{ width:20px; height:20px; fill:var(--text); margin-left:3px; }
+
+  .text-thumb{
+    display:flex; align-items:center; justify-content:center; padding:34px 26px;
+    font-family:'Oswald', sans-serif; font-weight:500; font-size:1.35rem; line-height:1.7;
+    text-align:center; white-space:pre-line; color:var(--text);
+    background: radial-gradient(circle at 25% 20%, rgba(209,165,77,0.12), transparent 55%), linear-gradient(160deg, #22251a, #171911);
+  }
+
+  .post-body{ padding:16px 18px 20px; }
+  .post-caption{ font-size:0.95rem; color:var(--text-dim); line-height:1.6; margin:0 0 10px; }
+  .post-meta{ display:flex; align-items:center; gap:16px; flex-wrap:wrap; font-size:0.82rem; color:var(--text-dim); }
+  .post-meta button{ background:none; border:none; color:inherit; display:flex; align-items:center; gap:6px; cursor:pointer; font-size:0.82rem; padding:0; font-family:'Work Sans', sans-serif; }
+  .post-meta button:hover{ color:var(--gold-bright); }
+  .liked .heart{ color:var(--gold); }
+  .resource-btn{
+    background:rgba(209,165,77,0.12) !important; border:1px solid rgba(209,165,77,0.4) !important;
+    padding:6px 12px !important; border-radius:999px;
+  }
+
+  .overlay{
+    position:fixed; inset:0; background:rgba(6,6,4,0.82); backdrop-filter:blur(4px);
+    display:none; align-items:flex-start; justify-content:center; padding:40px 16px; overflow-y:auto; z-index:50;
+  }
+  .overlay.open{ display:flex; }
+  .modal{
+    background:linear-gradient(180deg, var(--card-2), var(--card));
+    border:1px solid var(--line); border-radius:20px; max-width:560px; width:100%;
+    padding:0 0 24px; position:relative; box-shadow:var(--shadow); animation:pop 0.35s ease;
+  }
+  @keyframes pop{ from{ opacity:0; transform:translateY(20px) scale(0.98); } to{ opacity:1; transform:translateY(0) scale(1); } }
+  .modal-close{
+    position:absolute; top:14px; right:14px; width:34px; height:34px; border-radius:50%;
+    background:rgba(0,0,0,0.35); border:1px solid var(--line); color:var(--text);
+    font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:2;
+  }
+  .modal-media{ width:100%; aspect-ratio:4/3; overflow:hidden; border-radius:20px 20px 0 0; }
+  .modal-media img, .modal-media video{ width:100%; height:100%; object-fit:cover; }
+  .modal-text{
+    font-family:'Oswald', sans-serif; font-weight:500; font-size:1.5rem; line-height:1.7;
+    text-align:center; white-space:pre-line; padding:44px 30px;
+    background:radial-gradient(circle at 25% 20%, rgba(209,165,77,0.12), transparent 55%), linear-gradient(160deg, #22251a, #171911);
+  }
+  .modal-body{ padding:20px 24px 0; }
+  .modal-actions{ display:flex; gap:14px; padding:6px 24px 0; flex-wrap:wrap; }
+  .modal-actions button{
+    flex:1; min-width:120px; background:rgba(255,255,255,0.04); border:1px solid var(--line); color:var(--text);
+    padding:10px; border-radius:10px; font-size:0.88rem; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;
+    font-family:'Work Sans', sans-serif;
+  }
+  .modal-actions button:hover{ border-color:var(--gold); }
+  .modal .ad-slot{ margin:20px 24px 0; max-width:none; }
+
+  footer{ text-align:center; padding:30px 16px 50px; color:var(--text-dim); font-size:0.8rem; border-top:1px solid var(--line); }
+  footer a{ color:var(--gold-bright); text-decoration:none; }
+
+  .key-modal, .admin-modal{ max-width:420px; padding:30px 26px 26px; text-align:left; }
+  .admin-modal{ max-width:500px; max-height:88vh; overflow-y:auto; }
+  .key-modal h3, .admin-modal h3{ font-family:'Oswald', sans-serif; color:var(--gold-bright); margin:0 0 6px; font-size:1.3rem; letter-spacing:0.5px; }
+  .key-modal p, .admin-modal .sub{ color:var(--text-dim); font-size:0.88rem; margin:0 0 16px; }
+  .field-label{ display:block; font-size:0.78rem; letter-spacing:0.5px; color:var(--text-dim); margin:16px 0 6px; }
+  .optional-tag{ color:var(--text-dim); font-weight:400; font-size:0.72rem; }
+  input[type="text"], input[type="password"], input[type="url"], textarea, select{
+    width:100%; box-sizing:border-box; background:rgba(255,255,255,0.04); border:1px solid var(--line); color:var(--text);
+    padding:10px 12px; border-radius:10px; font-family:'Work Sans', sans-serif; font-size:0.92rem;
+  }
+  textarea{ resize:vertical; min-height:80px; }
+  input:focus, textarea:focus, select:focus{ outline:none; border-color:var(--gold); }
+  .primary-btn{
+    margin-top:18px; width:100%; background:var(--gold); color:var(--bg); border:none;
+    padding:11px; border-radius:10px; font-weight:600; cursor:pointer; font-size:0.92rem; font-family:'Work Sans', sans-serif;
+  }
+  .key-error{ color:#e0916f; font-size:0.82rem; margin-top:10px; display:none; }
+
+  .step-select{ display:flex; gap:8px; margin-bottom:6px; }
+  .step-select button{
+    flex:1; padding:12px 6px; border-radius:12px; border:1px solid var(--line); background:rgba(255,255,255,0.03);
+    color:var(--text-dim); font-size:0.85rem; cursor:pointer; font-family:'Work Sans', sans-serif; transition:all 0.2s ease;
+  }
+  .step-select button.active{ border-color:var(--gold); color:var(--gold-bright); background:rgba(209,165,77,0.1); }
+
+  .source-toggle{ display:flex; gap:8px; margin-bottom:4px; }
+  .source-toggle button{ flex:1; padding:8px; border-radius:8px; border:1px solid var(--line); background:transparent; color:var(--text-dim); font-size:0.8rem; cursor:pointer; font-family:'Work Sans', sans-serif; }
+  .source-toggle button.active{ border-color:var(--gold-bright); color:var(--gold-bright); }
+
+  .file-drop{ border:1px dashed var(--line); border-radius:10px; padding:14px; text-align:center; font-size:0.82rem; color:var(--text-dim); }
+  .warn-note{ font-size:0.78rem; color:var(--gold-bright); background:rgba(209,165,77,0.08); border-left:2px solid var(--gold); padding:8px 10px; border-radius:6px; margin-top:8px; }
+
+  #admin-preview{ margin-top:20px; }
+  #admin-preview .post{ opacity:1; transform:none; cursor:default; }
+  #code-output{ min-height:140px; font-family:'JetBrains Mono', monospace; font-size:0.72rem; margin-top:14px; }
+  .hint{ font-size:0.78rem; color:var(--text-dim); margin-top:8px; line-height:1.5; }
+
+  @media (prefers-reduced-motion: reduce){ .post, .modal{ transition:none; animation:none; } .eyes span{ animation:none; } }
+</style>
+</head>
+<body>
+
+<button class="upload-fab" id="upload-fab">🔒 पोस्ट अपलोड करें</button>
+
+<header class="hero">
+  <div class="eyes"><span></span><span></span></div>
+  <h1 class="brand">Dark Jaguar</h1>
+  <p class="tagline">ज्ञान, मनोरंजन और मुफ़्त रिसोर्स — courses, PDFs, tips aur bahut kuch, ek hi jagah.</p>
+  <div class="rosette-divider">
+    <span></span>
+    <svg viewBox="0 0 26 26"><circle cx="13" cy="6" r="2.6" fill="#d1a54d"/><circle cx="7" cy="14" r="2.2" fill="#d1a54d" opacity="0.75"/><circle cx="19" cy="14" r="2.2" fill="#d1a54d" opacity="0.75"/><circle cx="13" cy="20" r="1.8" fill="#d1a54d" opacity="0.55"/></svg>
+    <span></span>
+  </div>
+</header>
+
+<nav class="filters" id="filters">
+  <button class="tab active" data-filter="all">सभी</button>
+  <button class="tab" data-filter="text">टेक्स्ट</button>
+  <button class="tab" data-filter="image">इमेज</button>
+  <button class="tab" data-filter="video">वीडियो</button>
+</nav>
+
+<div class="ad-slot ad-banner">
+  <span class="ad-label">Advertisement</span>
+  <!-- ADSTERRA BANNER CODE YAHAN PASTE KAREIN -->
+  Ad Space (728x90 / responsive banner)
+</div>
+
+<main class="feed" id="feed">
+
+  <article class="post" data-type="text" data-mood="gyan">
+    <div class="post-head"><span class="cat gyan">ज्ञान</span><span class="post-type-icon">✒️ टेक्स्ट</span></div>
+    <div class="thumb text-thumb">रोज़ सिर्फ़ 20 मिनट पढ़ने की आदत,
+अगले 5 साल में आपकी सोच
+पूरी तरह बदल सकती है।</div>
+    <div class="post-body">
+      <p class="post-caption">छोटी आदतें, बड़ा बदलाव।</p>
+      <div class="post-meta">
+        <button class="like-btn">❤️ <span class="like-count">142</span></button>
+        <span>🔁 शेयर करें</span>
+      </div>
+    </div>
+  </article>
+
+  <article class="post" data-type="image" data-mood="entertainment">
+    <div class="post-head"><span class="cat entertainment">मनोरंजन</span><span class="post-type-icon">🖼️ इमेज</span></div>
+    <div class="thumb"><img loading="lazy" src="https://picsum.photos/seed/darkjaguar1/640/480" alt="Dark Jaguar image post"></div>
+    <div class="post-body">
+      <p class="post-caption">Weekend vibes — thoda relax karo!</p>
+      <div class="post-meta">
+        <button class="like-btn">❤️ <span class="like-count">88</span></button>
+        <span>🔁 शेयर करें</span>
+      </div>
+    </div>
+  </article>
+
+  <article class="post" data-type="video" data-mood="motivation" data-video="">
+    <div class="post-head"><span class="cat motivation">प्रेरणा</span><span class="post-type-icon">🎬 वीडियो</span></div>
+    <div class="thumb">
+      <div class="video-cover" style="background-image:url('https://picsum.photos/seed/darkjaguar2/640/480');">
+        <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      </div>
+    </div>
+    <div class="post-body">
+      <p class="post-caption">30 second ka motivational short.</p>
+      <div class="post-meta">
+        <button class="like-btn">❤️ <span class="like-count">201</span></button>
+        <span>🔁 शेयर करें</span>
+      </div>
+    </div>
+  </article>
+
+  <div class="ad-slot ad-native">
+    <span class="ad-label">Sponsored</span>
+    <!-- ADSTERRA NATIVE BANNER CODE YAHAN PASTE KAREIN -->
+    Native Ad Space
+  </div>
+
+  <article class="post" data-type="text" data-mood="course" data-link="#">
+    <div class="post-head"><span class="cat course">कोर्स</span><span class="post-type-icon">📄 फ्री PDF</span></div>
+    <div class="thumb text-thumb">Excel Basics
+Free PDF Notes
+
+Beginners ke liye
+5 pages ka quick guide.</div>
+    <div class="post-body">
+      <p class="post-caption">Neeche button se free PDF download karein.</p>
+      <div class="post-meta">
+        <button class="like-btn">❤️ <span class="like-count">356</span></button>
+        <button class="resource-btn" onclick="event.stopPropagation()">📥 Download करें</button>
+      </div>
+    </div>
+  </article>
+
+  <article class="post" data-type="image" data-mood="update">
+    <div class="post-head"><span class="cat update">अपडेट</span><span class="post-type-icon">🖼️ इमेज</span></div>
+    <div class="thumb"><img loading="lazy" src="https://picsum.photos/seed/darkjaguar3/640/480" alt="Dark Jaguar update post"></div>
+    <div class="post-body">
+      <p class="post-caption">Naya batch is Monday se shuru!</p>
+      <div class="post-meta">
+        <button class="like-btn">❤️ <span class="like-count">64</span></button>
+        <span>🔁 शेयर करें</span>
+      </div>
+    </div>
+  </article>
+
+  <div class="ad-slot ad-native">
+    <span class="ad-label">Sponsored</span>
+    <!-- ADSTERRA NATIVE BANNER CODE YAHAN PASTE KAREIN -->
+    Native Ad Space
+  </div>
+
+</main>
+
+<footer>
+  Made with 🐆 — Dark Jaguar · <a href="#" id="social-follow">Instagram par follow karein</a>
+</footer>
+
+<div class="overlay" id="overlay">
+  <div class="modal" id="modal">
+    <button class="modal-close" id="modal-close">✕</button>
+    <div id="modal-media-slot"></div>
+    <div class="modal-body">
+      <span class="cat" id="modal-mood"></span>
+      <p class="post-caption" id="modal-caption" style="margin-top:14px;"></p>
+    </div>
+    <div class="modal-actions">
+      <button id="modal-like">❤️ <span id="modal-like-count"></span></button>
+      <button id="modal-share">🔁 शेयर करें</button>
+      <button id="modal-link" style="display:none;">📥 Download / Link</button>
+    </div>
+    <div class="ad-slot">
+      <span class="ad-label">Advertisement</span>
+      <!-- ADSTERRA NATIVE/BANNER CODE YAHAN PASTE KAREIN -->
+      Ad Space
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="key-overlay">
+  <div class="modal key-modal">
+    <button class="modal-close" id="key-close">✕</button>
+    <h3>🔒 Admin Access</h3>
+    <p>Naya post upload karne ke liye secret key daalein.</p>
+    <input type="password" id="key-input" placeholder="Secret key">
+    <p class="key-error" id="key-error">Galat key hai — dobara try karein.</p>
+    <button class="primary-btn" id="key-submit">Unlock Karein</button>
+  </div>
+</div>
+
+<div class="overlay" id="admin-overlay">
+  <div class="modal admin-modal" id="admin-modal">
+    <button class="modal-close" id="admin-close">✕</button>
+    <h3>नई पोस्ट अपलोड करें</h3>
+    <p class="sub">Pehle post ka type chunein:</p>
+
+    <div class="step-select" id="type-select">
+      <button data-type="text">✒️<br>टेक्स्ट</button>
+      <button data-type="image">🖼️<br>इमेज</button>
+      <button data-type="video">🎬<br>वीडियो</button>
+    </div>
+
+    <div id="admin-form"></div>
+    <div id="admin-preview"></div>
+
+    <div class="modal-actions">
+      <button id="add-to-feed">👁️ Feed Me Dikhayein</button>
+      <button id="generate-code">⌨️ Code Generate Karein</button>
+    </div>
+
+    <textarea id="code-output" style="display:none;" readonly></textarea>
+    <button class="primary-btn" id="copy-code" style="display:none;">Code Copy Karein</button>
+    <p class="hint" id="code-hint" style="display:none;"></p>
+  </div>
+</div>
+
+<script>
+  const ADMIN_KEY = "DarkJaguar#2026";
+  const catLabels = { gyan:'ज्ञान', entertainment:'मनोरंजन', motivation:'प्रेरणा', course:'कोर्स', update:'अपडेट' };
+  const catTypeIcon = { text:'✒️ टेक्स्ट', image:'🖼️ इमेज', video:'🎬 वीडियो' };
+
+  function escapeHTML(str){
+    const d = document.createElement('div'); d.textContent = str; return d.innerHTML;
+  }
+
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target);} });
+  }, {threshold:0.15});
+  function observeAll(){ document.querySelectorAll('#feed .post').forEach(p=>{ if(!p.classList.contains('visible')) io.observe(p); }); }
+  observeAll();
+
+  document.querySelectorAll('.tab').forEach(tab=>{
+    tab.addEventListener('click', ()=>{
+      document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+      tab.classList.add('active');
+      const filter = tab.dataset.filter;
+      document.querySelectorAll('#feed .post').forEach(p=>{
+        p.style.display = (filter==='all' || p.dataset.type===filter) ? '' : 'none';
+      });
+    });
+  });
+
+  function attachPostInteractions(post){
+    const likeBtn = post.querySelector('.like-btn');
+    if(likeBtn){
+      likeBtn.addEventListener('click', (e)=>{
+        e.stopPropagation();
+        const countEl = likeBtn.querySelector('.like-count');
+        let count = parseInt(countEl.textContent, 10) || 0;
+        const liked = likeBtn.classList.toggle('liked');
+        countEl.textContent = liked ? count+1 : count-1;
+      });
+    }
+    const resBtn = post.querySelector('.resource-btn');
+    if(resBtn){
+      resBtn.addEventListener('click', (e)=>{
+        e.stopPropagation();
+        const link = post.dataset.link;
+        if(link) window.open(link, '_blank');
+      });
+    }
+    post.addEventListener('click', ()=> openModalFor(post));
+  }
+  document.querySelectorAll('#feed .post').forEach(attachPostInteractions);
+
+  const overlay = document.getElementById('overlay');
+  const mediaSlot = document.getElementById('modal-media-slot');
+  const modalMood = document.getElementById('modal-mood');
+  const modalCaption = document.getElementById('modal-caption');
+  const modalLikeCount = document.getElementById('modal-like-count');
+  const modalLikeBtn = document.getElementById('modal-like');
+  const modalLinkBtn = document.getElementById('modal-link');
+
+  function openModalFor(post){
+    const type = post.dataset.type;
+    const mood = post.dataset.mood;
+    const captionEl = post.querySelector('.post-caption');
+    const caption = captionEl ? captionEl.textContent : '';
+    const likeCount = post.querySelector('.like-count').textContent;
+    const link = post.dataset.link;
+
+    modalMood.textContent = catLabels[mood] || mood;
+    modalMood.className = 'cat ' + mood;
+    modalCaption.textContent = caption;
+    modalCaption.style.display = caption ? '' : 'none';
+    modalLikeCount.textContent = likeCount;
+    modalLikeBtn.classList.remove('liked');
+
+    if(link){ modalLinkBtn.style.display = ''; modalLinkBtn.onclick = ()=> window.open(link, '_blank'); }
+    else { modalLinkBtn.style.display = 'none'; }
+
+    if(type==='text'){
+      const fullText = post.querySelector('.text-thumb').textContent;
+      mediaSlot.innerHTML = '<div class="modal-text">'+escapeHTML(fullText)+'</div>';
+    } else if(type==='image'){
+      const src = post.querySelector('img').src;
+      mediaSlot.innerHTML = '<div class="modal-media"><img src="'+src+'" alt="Dark Jaguar post"></div>';
+    } else if(type==='video'){
+      const videoSrc = post.dataset.video;
+      const poster = post.querySelector('.video-cover').style.backgroundImage.slice(5,-2);
+      if(videoSrc){
+        mediaSlot.innerHTML = '<div class="modal-media"><video controls poster="'+poster+'"><source src="'+videoSrc+'" type="video/mp4">Aapka browser video support nahi karta.</video></div>';
+      } else {
+        mediaSlot.innerHTML = '<div class="modal-media"><img src="'+poster+'" alt="Video thumbnail"></div>';
+      }
+    }
+    overlay.classList.add('open');
+    document.body.style.overflow='hidden';
+  }
+
+  document.getElementById('modal-close').addEventListener('click', ()=>closeOverlay(overlay));
+  overlay.addEventListener('click', (e)=>{ if(e.target===overlay) closeOverlay(overlay); });
+  function closeOverlay(ov){ ov.classList.remove('open'); document.body.style.overflow=''; }
+
+  modalLikeBtn.addEventListener('click', ()=>{
+    let count = parseInt(modalLikeCount.textContent, 10) || 0;
+    const liked = modalLikeBtn.classList.toggle('liked');
+    modalLikeCount.textContent = liked ? count+1 : count-1;
+  });
+  document.getElementById('modal-share').addEventListener('click', ()=>{
+    const shareData = { title:'Dark Jaguar', text: modalCaption.textContent, url: window.location.href };
+    if(navigator.share){ navigator.share(shareData).catch(()=>{}); }
+    else{ alert('Link copy: ' + window.location.href); }
+  });
+
+  const uploadFab = document.getElementById('upload-fab');
+  const keyOverlay = document.getElementById('key-overlay');
+  const keyInput = document.getElementById('key-input');
+  const keyError = document.getElementById('key-error');
+  const adminOverlay = document.getElementById('admin-overlay');
+
+  uploadFab.addEventListener('click', ()=>{ keyOverlay.classList.add('open'); keyError.style.display='none'; keyInput.value=''; keyInput.focus(); });
+  document.getElementById('key-close').addEventListener('click', ()=>closeOverlay(keyOverlay));
+  keyOverlay.addEventListener('click', (e)=>{ if(e.target===keyOverlay) closeOverlay(keyOverlay); });
+
+  document.getElementById('key-submit').addEventListener('click', submitKey);
+  keyInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter') submitKey(); });
+  function submitKey(){
+    if(keyInput.value === ADMIN_KEY){
+      closeOverlay(keyOverlay);
+      resetAdminForm();
+      adminOverlay.classList.add('open');
+      document.body.style.overflow='hidden';
+    } else {
+      keyError.style.display='block';
+    }
+  }
+  document.getElementById('admin-close').addEventListener('click', ()=>closeOverlay(adminOverlay));
+  adminOverlay.addEventListener('click', (e)=>{ if(e.target===adminOverlay) closeOverlay(adminOverlay); });
+
+  const adminForm = document.getElementById('admin-form');
+  const adminPreview = document.getElementById('admin-preview');
+  const codeOutput = document.getElementById('code-output');
+  const copyCodeBtn = document.getElementById('copy-code');
+  const codeHint = document.getElementById('code-hint');
+  let currentType = null;
+  let state = {};
+
+  document.querySelectorAll('#type-select button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('#type-select button').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      currentType = btn.dataset.type;
+      state = { type: currentType };
+      renderForm();
+    });
+  });
+
+  function resetAdminForm(){
+    currentType = null; state = {};
+    document.querySelectorAll('#type-select button').forEach(b=>b.classList.remove('active'));
+    adminForm.innerHTML = '';
+    adminPreview.innerHTML = '';
+    codeOutput.style.display='none'; copyCodeBtn.style.display='none'; codeHint.style.display='none';
+    codeOutput.value = '';
+  }
+
+  function categorySelectHTML(){
+    return '<label class="field-label">Category</label>'+
+      '<select id="f-category">'+
+      '<option value="gyan">ज्ञान</option>'+
+      '<option value="entertainment">मनोरंजन</option>'+
+      '<option value="motivation">प्रेरणा</option>'+
+      '<option value="course">कोर्स / PDF</option>'+
+      '<option value="update">अपडेट</option>'+
+      '</select>';
+  }
+  function captionFieldHTML(){
+    return '<label class="field-label">Caption <span class="optional-tag">(optional)</span></label>'+
+      '<input type="text" id="f-caption" placeholder="Chhota sa caption likhein...">';
+  }
+  function linkFieldHTML(){
+    return '<label class="field-label">Resource / Download Link <span class="optional-tag">(optional — PDF, course page, etc.)</span></label>'+
+      '<input type="url" id="f-link" placeholder="https://drive.google.com/...">';
+  }
+  function sourceToggleHTML(prefix, labelDevice, labelLink){
+    return '<div class="source-toggle" id="'+prefix+'-toggle">'+
+      '<button type="button" data-src="device" class="active">'+labelDevice+'</button>'+
+      '<button type="button" data-src="link">'+labelLink+'</button>'+
+      '</div>';
+  }
+
+  function renderForm(){
+    let html = '';
+    if(currentType==='text'){
+      html += '<label class="field-label">पूरा टेक्स्ट</label>';
+      html += '<textarea id="f-text" placeholder="Yahan apna text likhein..."></textarea>';
+      html += categorySelectHTML();
+      html += captionFieldHTML();
+      html += linkFieldHTML();
+    } else if(currentType==='image'){
+      html += '<label class="field-label">Image कहाँ से लें?</label>';
+      html += sourceToggleHTML('img', '📁 Device Se', '🔗 Online Link Se');
+      html += '<div id="img-device-field"><div class="file-drop"><input type="file" id="f-img-file" accept="image/*"></div></div>';
+      html += '<div id="img-link-field" style="display:none;"><input type="url" id="f-img-url" placeholder="https://example.com/image.jpg"></div>';
+      html += categorySelectHTML();
+      html += captionFieldHTML();
+      html += linkFieldHTML();
+    } else if(currentType==='video'){
+      html += '<label class="field-label">Thumbnail image कहाँ से लें?</label>';
+      html += sourceToggleHTML('thumb', '📁 Device Se', '🔗 Online Link Se');
+      html += '<div id="thumb-device-field"><div class="file-drop"><input type="file" id="f-thumb-file" accept="image/*"></div></div>';
+      html += '<div id="thumb-link-field" style="display:none;"><input type="url" id="f-thumb-url" placeholder="https://example.com/thumbnail.jpg"></div>';
+
+      html += '<label class="field-label" style="margin-top:20px;">Video कहाँ से लें?</label>';
+      html += sourceToggleHTML('vid', '📁 Device Se', '🔗 Online Link Se');
+      html += '<div id="vid-device-field"><div class="file-drop"><input type="file" id="f-vid-file" accept="video/*"></div>'+
+              '<p class="warn-note">⚠️ Device se video sirf abhi preview ke liye chalega. Site pe permanently daalne ke liye video ko YouTube (unlisted) ya Google Drive pe upload karke uska link "Online Link Se" me daalna hoga.</p></div>';
+      html += '<div id="vid-link-field" style="display:none;"><input type="url" id="f-vid-url" placeholder="https://.../video.mp4 ya YouTube link"></div>';
+
+      html += categorySelectHTML();
+      html += captionFieldHTML();
+      html += linkFieldHTML();
+    }
+    adminForm.innerHTML = html;
+    wireDynamicFields();
+    renderPreview();
+  }
+
+  function wireDynamicFields(){
+    ['img','thumb','vid'].forEach(prefix=>{
+      const toggle = document.getElementById(prefix+'-toggle');
+      if(!toggle) return;
+      toggle.querySelectorAll('button').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          toggle.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
+          btn.classList.add('active');
+          const src = btn.dataset.src;
+          document.getElementById(prefix+'-device-field').style.display = src==='device' ? '' : 'none';
+          document.getElementById(prefix+'-link-field').style.display = src==='link' ? '' : 'none';
+          renderPreview();
+        });
+      });
+    });
+    adminForm.querySelectorAll('input, textarea, select').forEach(el=>{
+      el.addEventListener('input', renderPreview);
+      el.addEventListener('change', renderPreview);
+    });
+  }
+
+  function readFileAsDataURL(file, cb){
+    const reader = new FileReader();
+    reader.onload = ()=> cb(reader.result);
+    reader.readAsDataURL(file);
+  }
+
+  function collectState(cb){
+    const category = document.getElementById('f-category') ? document.getElementById('f-category').value : 'gyan';
+    const caption = document.getElementById('f-caption') ? document.getElementById('f-caption').value.trim() : '';
+    const link = document.getElementById('f-link') ? document.getElementById('f-link').value.trim() : '';
+
+    if(currentType==='text'){
+      const text = document.getElementById('f-text') ? document.getElementById('f-text').value : '';
+      cb({ type:'text', category, caption, link, text });
+    } else if(currentType==='image'){
+      const imgFile = document.getElementById('f-img-file');
+      const imgSrcMode = document.querySelector('#img-toggle button.active').dataset.src;
+      if(imgSrcMode==='device' && imgFile && imgFile.files[0]){
+        readFileAsDataURL(imgFile.files[0], (dataUrl)=> cb({ type:'image', category, caption, link, imgSrc:dataUrl }));
+      } else {
+        const url = document.getElementById('f-img-url') ? document.getElementById('f-img-url').value : '';
+        cb({ type:'image', category, caption, link, imgSrc:url });
+      }
+    } else if(currentType==='video'){
+      const thumbSrcMode = document.querySelector('#thumb-toggle button.active').dataset.src;
+      const vidSrcMode = document.querySelector('#vid-toggle button.active').dataset.src;
+      const thumbFile = document.getElementById('f-thumb-file');
+      const vidFile = document.getElementById('f-vid-file');
+
+      const finish = (thumbSrc, videoSrc)=> cb({ type:'video', category, caption, link, thumbSrc, videoSrc });
+
+      const getThumb = (next)=>{
+        if(thumbSrcMode==='device' && thumbFile && thumbFile.files[0]){ readFileAsDataURL(thumbFile.files[0], next); }
+        else { next(document.getElementById('f-thumb-url') ? document.getElementById('f-thumb-url').value : ''); }
+      };
+      const getVideo = (next)=>{
+        if(vidSrcMode==='device' && vidFile && vidFile.files[0]){ next(URL.createObjectURL(vidFile.files[0])); }
+        else { next(document.getElementById('f-vid-url') ? document.getElementById('f-vid-url').value : ''); }
+      };
+      getThumb((thumbSrc)=> getVideo((videoSrc)=> finish(thumbSrc, videoSrc)));
+    } else {
+      cb(null);
+    }
+  }
+
+  function buildPostElement(s){
+    const article = document.createElement('article');
+    article.className = 'post';
+    article.dataset.type = s.type;
+    article.dataset.mood = s.category;
+    if(s.link) article.dataset.link = s.link;
+    if(s.type==='video' && s.videoSrc) article.dataset.video = s.videoSrc;
+
+    const captionHTML = s.caption ? '<p class="post-caption">'+escapeHTML(s.caption)+'</p>' : '';
+    const linkBtnHTML = s.link ? '<button class="resource-btn" onclick="event.stopPropagation()">📥 Download करें</button>' : '<span>🔁 शेयर करें</span>';
+
+    let thumbHTML = '';
+    if(s.type==='text'){
+      thumbHTML = '<div class="thumb text-thumb">'+escapeHTML(s.text||'')+'</div>';
+    } else if(s.type==='image'){
+      thumbHTML = '<div class="thumb"><img loading="lazy" src="'+(s.imgSrc||'')+'" alt="Dark Jaguar post"></div>';
+    } else if(s.type==='video'){
+      thumbHTML = '<div class="thumb"><div class="video-cover" style="background-image:url(\''+(s.thumbSrc||'')+'\');"><div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>';
+    }
+
+    article.innerHTML =
+      '<div class="post-head"><span class="cat '+s.category+'">'+catLabels[s.category]+'</span><span class="post-type-icon">'+catTypeIcon[s.type]+'</span></div>'+
+      thumbHTML+
+      '<div class="post-body">'+captionHTML+
+      '<div class="post-meta"><button class="like-btn">❤️ <span class="like-count">0</span></button>'+linkBtnHTML+'</div></div>';
+
+    return article;
+  }
+
+  function renderPreview(){
+    if(!currentType){ adminPreview.innerHTML=''; return; }
+    collectState((s)=>{
+      if(!s) return;
+      adminPreview.innerHTML = '<label class="field-label">Preview</label>';
+      adminPreview.appendChild(buildPostElement(s));
+    });
+  }
+
+  document.getElementById('add-to-feed').addEventListener('click', ()=>{
+    if(!currentType){ alert('Pehle post ka type chunein.'); return; }
+    collectState((s)=>{
+      const el = buildPostElement(s);
+      const feed = document.getElementById('feed');
+      feed.insertBefore(el, feed.firstChild);
+      el.classList.add('visible');
+      attachPostInteractions(el);
+      observeAll();
+      closeOverlay(adminOverlay);
+      window.scrollTo({top:0, behavior:'smooth'});
+    });
+  });
+
+  document.getElementById('generate-code').addEventListener('click', ()=>{
+    if(!currentType){ alert('Pehle post ka type chunein.'); return; }
+    collectState((s)=>{
+      const el = buildPostElement(s);
+      const code = '  '+el.outerHTML.replace(/></g, '>\n    <');
+      codeOutput.value = code;
+      codeOutput.style.display='block';
+      copyCodeBtn.style.display='block';
+      codeHint.style.display='block';
+      codeHint.textContent = 'Is code ko copy karke apni GitHub repo ki index.html file me <main class="feed"> tag ke andar (kisi bhi post ke upar) paste kar dein, phir commit karein — Cloudflare Pages khud site update kar dega.'
+        + (s.type==='video' && s.videoSrc && s.videoSrc.indexOf('blob:')===0 ? ' ⚠️ Aapne video device se choose kiya hai — is code me video sirf preview ke liye hai, isse pehle apni video ko online host karke uska link daalein.' : '');
+    });
+  });
+
+  copyCodeBtn.addEventListener('click', ()=>{
+    codeOutput.select();
+    try{
+      navigator.clipboard.writeText(codeOutput.value).then(()=>{
+        copyCodeBtn.textContent = '✅ Copy ho gaya!';
+        setTimeout(()=> copyCodeBtn.textContent='Code Copy Karein', 1800);
+      }).catch(()=>{ document.execCommand('copy'); });
+    } catch(err){
+      try{ document.execCommand('copy'); } catch(e2){}
+    }
+  });
+</script>
+
+</body>
+</html>
